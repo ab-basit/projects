@@ -1,6 +1,10 @@
+package prac;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 public class ReverseFactorization {
@@ -43,8 +47,7 @@ public class ReverseFactorization {
 		 * steps(factors).
 		 * The Algorithm also keeps the track of product of all divisors [product] 
 		 * to make sure all steps to given integer are found. 
-		 * The steps found in above step are then copied to another array and sorted
-		 * to create steps in lexical order.
+		 * The steps found in above step are then sorted to create steps in lexical order.
 		 * Finally the steps are printed
 		 * 
 		 * p.s : edge cases are included.
@@ -56,33 +59,40 @@ public class ReverseFactorization {
 		}
 			
 		Arrays.sort(arr);
+		if(n<0 && arr[0] >0) {
+			System.out.println(-1);
+			return;
+		}
+		
 		int[] temp1 = new int[arr.length];
-		int[] temp2 = new int[arr.length];
+		List<Integer> temp2 = new ArrayList<>();
 		
 		int j=0;
 		for(int i=0;i<arr.length;i++) 
 			if(n%arr[i]==0)
 				temp1[j++]=arr[i];
 		
-		int num=n,product =1,k=0;
+		int num=n,product =1;
 		for(int i=j-1;i>=0;i--) {
 			if(num%temp1[i]==0 && num != 1) {
-				temp2[k++] = temp1[i];
+				temp2.add(temp1[i]);
 				num /= temp1[i];
 				product *= temp1[i];
 				i++;
 				
 			}
+			
 		}
+		if(num == -1)
+			product *= -1;
 		
-		int[] result = Arrays.copyOfRange(temp2,0,k);
-		Arrays.sort(result);
+		Collections.sort(temp2);
 		
 		int step =1;
-		if(k != 0 && n == product) {
+		if(temp2.size() != 0 && n == product) {
 			System.out.print(step);
-			for(int i=0; i<result.length;i++) {
-				step *= result[i];
+			for(int i:temp2) {
+				step *= i;
 				System.out.print(" "+step);
 			}
 		}
