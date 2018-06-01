@@ -81,10 +81,10 @@ public class ReverseFactorization {
 				i++;
 				
 			}
+			if(num == -1)
+				product *= -1;
 			
 		}
-		if(num == -1)
-			product *= -1;
 		
 		Collections.sort(temp2);
 		
